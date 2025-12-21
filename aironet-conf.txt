@@ -1,0 +1,260 @@
+!
+! Last configuration change at 07:24:35 EET Sun Dec 21 2025 by cisco
+! NVRAM config last updated at 07:24:52 EET Sun Dec 21 2025 by cisco
+! NVRAM config last updated at 07:24:52 EET Sun Dec 21 2025 by cisco
+version 15.3
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname ap2
+!
+!
+logging rate-limit console 9
+enable secret 5 <fiskars>
+!
+no aaa new-model
+clock timezone EET 2 0
+clock summer-time EEST recurring last Sun Mar 3:00 last Sun Oct 4:00
+no ip source-route
+no ip cef
+ip domain name skuolfi.net
+!
+!
+!
+!
+dot11 pause-time 100
+dot11 syslog
+!
+dot11 ssid IoT-WiFi
+   vlan 20
+   band-select
+   authentication open 
+   authentication key-management wpa version 2
+   mbssid guest-mode
+   wpa-psk ascii 0 <fiskars>
+!
+dot11 ssid killamanjaro
+   vlan 10
+   band-select
+   authentication open 
+   authentication key-management wpa version 2
+   mbssid guest-mode
+   wpa-psk ascii 0 <fiskars>
+!
+!
+!
+no ipv6 source-route
+no ipv6 cef
+!
+!
+archive
+ path flash:archived-config
+ maximum 14
+ write-memory
+username Cisco privilege 15 password 0 <fiskars>
+!
+!
+bridge irb
+!
+!         
+!
+interface Dot11Radio0
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ !
+ !
+ encryption vlan 10 mode ciphers aes-ccm 
+ !
+ encryption vlan 20 mode ciphers aes-ccm 
+ !
+ broadcast-key change 300
+ !
+ !
+ ssid IoT-WiFi
+ !
+ ssid killamanjaro
+ !
+ antenna gain 0
+ stbc
+ mbssid
+ channel least-congested 2412 2437 2462
+ station-role root
+ world-mode dot11d country-code FI indoor
+!
+interface Dot11Radio0.10
+ encapsulation dot1Q 10 native
+ no ip route-cache
+ no cdp enable
+ bridge-group 1
+ bridge-group 1 subscriber-loop-control
+ bridge-group 1 spanning-disabled
+ bridge-group 1 block-unknown-source
+ no bridge-group 1 source-learning
+ no bridge-group 1 unicast-flooding
+!
+interface Dot11Radio0.20
+ encapsulation dot1Q 20
+ no ip route-cache
+ no cdp enable
+ bridge-group 20
+ bridge-group 20 subscriber-loop-control
+ bridge-group 20 spanning-disabled
+ bridge-group 20 block-unknown-source
+ no bridge-group 20 source-learning
+ no bridge-group 20 unicast-flooding
+!
+interface Dot11Radio1
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ !
+ !
+ encryption vlan 10 mode ciphers aes-ccm 
+ !
+ encryption vlan 20 mode ciphers aes-ccm 
+ !
+ broadcast-key change 300
+ !
+ !
+ ssid IoT-WiFi
+ !
+ ssid killamanjaro
+ !
+ antenna gain 0
+ peakdetect
+ no dfs band block
+ stbc
+ mbssid
+ channel width 80
+ channel dfs
+ station-role root
+ world-mode dot11d country-code FI indoor
+!
+interface Dot11Radio1.10
+ encapsulation dot1Q 10 native
+ no ip route-cache
+ no cdp enable
+ bridge-group 1
+ bridge-group 1 subscriber-loop-control
+ bridge-group 1 spanning-disabled
+ bridge-group 1 block-unknown-source
+ no bridge-group 1 source-learning
+ no bridge-group 1 unicast-flooding
+!
+interface Dot11Radio1.20
+ encapsulation dot1Q 20
+ no ip route-cache
+ no cdp enable
+ bridge-group 20
+ bridge-group 20 subscriber-loop-control
+ bridge-group 20 spanning-disabled
+ bridge-group 20 block-unknown-source
+ no bridge-group 20 source-learning
+ no bridge-group 20 unicast-flooding
+!
+interface GigabitEthernet0
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0.10
+ encapsulation dot1Q 10 native
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ no cdp enable
+ bridge-group 1
+ bridge-group 1 spanning-disabled
+ no bridge-group 1 source-learning
+!
+interface GigabitEthernet0.20
+ encapsulation dot1Q 20
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ no cdp enable
+ bridge-group 20
+ bridge-group 20 spanning-disabled
+ no bridge-group 20 source-learning
+!
+interface GigabitEthernet1
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet1.10
+ encapsulation dot1Q 10 native
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ no cdp enable
+ bridge-group 1
+ bridge-group 1 spanning-disabled
+ no bridge-group 1 source-learning
+!
+interface GigabitEthernet1.20
+ encapsulation dot1Q 20
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+ no cdp enable
+ bridge-group 20
+ bridge-group 20 spanning-disabled
+ no bridge-group 20 source-learning
+!
+interface BVI1
+ mac-address f44e.0578.8888
+ ip address dhcp client-id GigabitEthernet0
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no ip route-cache
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+ip http help-path http://www.cisco.com/warp/public/779/smbiz/prodconfig/help/eag
+ip ssh maxstartups 2
+ip ssh authentication-retries 5
+ip ssh version 2
+ip ssh dh min size 2048
+ip ssh server algorithm encryption aes256-ctr aes192-ctr aes128-ctr
+ip ssh server algorithm hostkey ssh-rsa x509v3-ssh-rsa
+ip ssh server algorithm publickey ssh-rsa x509v3-ssh-rsa
+!
+no cdp run
+!
+bridge 1 route ip
+bridge 20 route ip
+!
+!
+!
+line con 0
+line vty 0 4
+ exec-timeout 30 0
+ login local
+ transport input ssh
+!
+sntp server 0.fi.pool.ntp.org
+end
