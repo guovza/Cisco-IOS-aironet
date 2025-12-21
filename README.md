@@ -1,0 +1,3 @@
+Just dropped my Cisco Aironet config here, hopefully it's usefull for someone....
+
+Only two VLANs but you may add more as you need.
