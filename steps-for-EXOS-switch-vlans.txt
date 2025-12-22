@@ -1,0 +1,35 @@
+AP is connected to switch port 3 and router uplink to port 1.
+
+
+Initial EXOS switch (X430-24t) steps needed to get these two VLANs working:
+
+
+Step 1 — Create VLAN 20
+
+
+create vlan "IOT" tag 20
+
+
+Step 2 — Add VLANs to router uplink (Port 1)
+
+Port 1 must be a trunk:
+
+configure vlan IOT add ports 1 tagged
+configure vlan Default add ports 1 untagged
+
+
+(Default = VLAN 10)
+
+
+Step 3 — Configure AP uplink (Port 3)
+
+Port 3:
+    •   VLAN 10 = untagged (native)
+    •   VLAN 20 = tagged
+    
+
+configure vlan IOT add ports 3 tagged
+configure vlan Default add ports 3 untagged
+
+
+
