@@ -1,0 +1,183 @@
+#
+# Module devmgr configuration.
+#
+configure snmp sysContact "SkuolfiSec"
+configure diagnostics privilege admin
+configure timezone name EET 120 autodst name EEST begins every last sunday march at 3 0 ends every last sunday october at 4 0
+configure sys-recovery-level switch reset
+
+#
+# Module vlan configuration.
+#
+configure vlan default delete ports all
+configure vr VR-Default delete ports 1-28
+configure vr VR-Default add ports 1-28
+configure vlan Default tag 10
+create vlan "IOT"
+configure vlan IOT tag 20
+configure vlan Default add ports 1-28 untagged  
+configure vlan IOT add ports 1,3 tagged  
+
+#
+# Module fdb configuration.
+#
+
+#
+# Module rtmgr configuration.
+#
+
+#
+# Module mcmgr configuration.
+#
+configure forwarding ipmc lookup-key mac-vlan
+
+#
+# Module aaa configuration.
+#
+create account admin exadmin encrypted "<fiskars>" 
+configure account all password-policy min-length 8
+configure account all password-policy lockout-on-login-failures on
+configure account all password-policy lockout-time-period 5
+configure account exadmin password-policy min-length 8
+configure account exadmin password-policy lockout-on-login-failures on
+configure account exadmin password-policy lockout-time-period 5
+
+#
+# Module acl configuration.
+#
+
+
+
+
+#
+# Module cfgmgr configuration.
+#
+configure cli password prompting-only on
+configure idletimeout 60
+
+#
+# Module dosprotect configuration.
+#
+enable dos-protect
+configure dos-protect trusted-ports ports 24
+configure dos-protect type l3-protect alert-threshold 1000
+configure dos-protect type l3-protect notify-threshold 500
+
+#
+# Module dot1ag configuration.
+#
+
+#
+# Module eaps configuration.
+#
+
+#
+# Module edp configuration.
+#
+
+#
+# Module elrp configuration.
+#
+
+#
+# Module ems configuration.
+#
+configure log messages privilege admin
+configure log target memory-buffer alert percent-full 90
+
+#
+# Module epm configuration.
+#
+
+#
+# Module erps configuration.
+#
+
+#
+# Module esrp configuration.
+#
+
+#
+# Module etmon configuration.
+#
+
+#
+# Module exsshd configuration.
+#
+enable ssh2
+configure ssh2 secure-mode on
+configure ssh2 access-profile ssh-access
+
+#
+# Module hal configuration.
+#
+
+#
+# Module idMgr configuration.
+#
+
+#
+# Module ipSecurity configuration.
+#
+configure ip-security dhcp-snooping information circuit-id vlan-information 1 vlan Default
+
+#
+# Module lldp configuration.
+#
+
+#
+# Module mrp configuration.
+#
+
+#
+# Module netLogin configuration.
+#
+
+#
+# Module netTools configuration.
+#
+configure dns-client add name-server 172.21.10.1 vr VR-Mgmt
+configure dns-client add name-server 172.21.10.1 vr VR-Default
+configure sntp-client primary 172.21.10.1 vr VR-Default
+configure sntp-client broadcast vr VR-Default
+enable sntp-client
+enable dhcp vlan Default
+enable dhcp vlan Mgmt
+
+#
+# Module poe configuration.
+#
+
+#
+# Module snmpMaster configuration.
+#
+configure snmpv3 delete user "admin" engine-id 80:00:07:7c:03:00:04:96:83:b2:d8
+configure snmpv3 delete user "initial" engine-id 80:00:07:7c:03:00:04:96:83:b2:d8
+configure snmpv3 delete user "initialmd5" engine-id 80:00:07:7c:03:00:04:96:83:b2:d8
+configure snmpv3 delete user "initialsha" engine-id 80:00:07:7c:03:00:04:96:83:b2:d8
+configure snmpv3 delete user "initialmd5Priv" engine-id 80:00:07:7c:03:00:04:96:83:b2:d8
+configure snmpv3 delete user "initialshaPriv" engine-id 80:00:07:7c:03:00:04:96:83:b2:d8
+configure snmpv3 delete community "private"
+configure snmpv3 delete community "public"
+disable snmp access
+disable snmp access vr "VR-Default"
+disable snmp access vr "VR-Mgmt"
+
+#
+# Module stp configuration.
+#
+
+#
+# Module techSupport configuration.
+#
+
+#
+# Module telnetd configuration.
+#
+disable telnet
+configure telnet access-profile telnet-access
+
+#
+# Module thttpd configuration.
+#
+configure ssl certificate hash-algorithm sha512
